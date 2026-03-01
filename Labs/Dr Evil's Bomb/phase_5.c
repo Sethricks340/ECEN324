@@ -9,10 +9,10 @@
 
         // rbx = input string
         // the following is a loop that does *something* to the input string: (rbx)
-// 0x4010af <phase_5+23>   movzbl (%rbx,%rax,1),%edx                                                                                                        
-// 0x4010b3 <phase_5+27>   and    $0xf,%edx                                                                                                                 
-// 0x4010b6 <phase_5+30>   movzbl 0x4024f0(%rdx),%edx                                                                                                       
-// 0x4010bd <phase_5+37>   mov    %dl,0x9(%rsp,%rax,1)                                                                                                      
+// 0x4010af <phase_5+23>   movzbl (%rbx,%rax,1),%edx     // string index (rax is loop index, 0-6)                                                                                                     
+// 0x4010b3 <phase_5+27>   and    $0xf,%edx    // keep lower byte of edx                                                                                                             
+// 0x4010b6 <phase_5+30>   movzbl 0x4024f0(%rdx),%edx         // look up table at rdx, store in edx                                                                                              
+// 0x4010bd <phase_5+37>   mov    %dl,0x9(%rsp,%rax,1)        %dl = lowest 8 bits of %rdx                                                                                              
 // 0x4010c1 <phase_5+41>   add    $0x1,%rax                                                                                                                 
 // 0x4010c5 <phase_5+45>   cmp    $0x6,%rax                                                                                                                 
 // 0x4010c9 <phase_5+49>   jne    0x4010af <phase_5+23>  
@@ -21,7 +21,7 @@
 // sethiz -> ueinfo      i -> f    l?    a?    m?    e->e   s?
 // abcdef  -> aduier     a -> a
 // ghijkl  -> snfotv     g -> s    
-// mnopqr  -> bylmad     0 -> l   p-> m
+// mnopqr  -> bylmad     o -> l   p-> m
 
 // ioapeg  -> flames
 
@@ -40,19 +40,8 @@
 // 0x4010f5 <phase_5+93>   jmp    0x4010e3 <phase_5+75> 
 
 
-
-
-
-
-// #include <stdio.h>
-
-// int dress = 14; // rdx
-// int silk = 0;   // rsi
-// int diane = 4;  // First number input //rdi
-
-// int func4(int dress, int silk, int diane){
-// }
-
-int main() {
-   
-}
+// look up table
+// (gdb) x /16cb 0x4024f0
+// 0x4024f0 <array.3194>:  109 'm' 97 'a'  100 'd' 117 'u' 105 'i' 101 'e' 114 'r' 115 's'
+// 0x4024f8 <array.3194+8>:        110 'n' 102 'f' 111 'o' 116 't' 118 'v' 98 'b'  121 'y' 108 'l'
+// (gdb)
